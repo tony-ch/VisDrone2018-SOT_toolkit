@@ -18,7 +18,7 @@ resultPath:<br>
 |---------seq1<br>
 |---------seq2<br>
 
-`datasetPath` and `resultPath` are in `plotEval.m`. Trackers can be can by modifying `util\configTrackers.m`, add tracker by insert a new line like `struct('name','ACT','namePaper','ACT')`.
+`datasetPath` and `resultPath` are in `plotEval.m`. Trackers can be added by modifying `util\configTrackers.m`, insert a new line like `struct('name','ACT','namePaper','ACT')` to add a tracker.
 
 
 # original readme

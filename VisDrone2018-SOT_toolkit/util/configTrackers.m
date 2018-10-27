@@ -1,5 +1,6 @@
 function trackers = configTrackers()
 
 trackers = {
-            struct('name','Staple','namePaper','Staple')
+            struct('name','ACT','namePaper','ACT')
+            struct('name','GT','namePaper','GT')
             };

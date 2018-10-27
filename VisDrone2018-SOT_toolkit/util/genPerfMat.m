@@ -1,4 +1,4 @@
-function genPerfMat(datasetPath, seqs, trackers, evalType, nameTrkAll, perfMatPath)
+function genPerfMat(datasetPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath)
 
 pathAnno = fullfile(datasetPath, 'annotations');
 numTrk = length(trackers);
@@ -6,18 +6,19 @@ numTrk = length(trackers);
 thresholdSetOverlap = 0:0.05:1;
 thresholdSetError = 0:50;
 
-rpAll = ['./results/results_' evalType '/'];
+% rpAll = ['./results/results_' evalType '/'];
+rpAll = resultPath;
 
 for idxSeq=1:length(seqs)
     s = seqs{idxSeq};
     
     s.len = s.endFrame - s.startFrame + 1;
     s.s_frames = cell(s.len,1);
-    nz	= strcat('img%0',num2str(s.nz),'d'); %number of zeros in the name of image
+%    nz	= strcat('img%0',num2str(s.nz),'d'); %number of zeros in the name of image
     for i = 1:s.len
         image_no = s.startFrame + (i-1);
-        id = sprintf(nz,image_no);
-        s.s_frames{i} = strcat(s.path,id,'.',s.ext);
+        % id = sprintf(nz,image_no);
+        % s.s_frames{i} = strcat(s.path,id,'.',s.ext);
     end
     
     rect_anno = dlmread([pathAnno '/' s.name '.txt']);
@@ -30,7 +31,7 @@ for idxSeq=1:length(seqs)
         % check the result format
         res_mat = [rpAll s.name '_' t.name '.mat'];
         if(~exist(res_mat, 'file'))
-            res_txt = [rpAll s.name '.txt'];
+            res_txt = [rpAll t.name '/' s.name '.txt'];
             results = cell(1,1);
             results{1}.res = load(res_txt);
             results{1}.type = 'rect';

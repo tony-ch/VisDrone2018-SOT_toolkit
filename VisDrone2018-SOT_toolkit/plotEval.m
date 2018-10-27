@@ -7,9 +7,8 @@ datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
 trackers = configTrackers; % the set of trackers
 reEvalFlag = 1; % the flag to re-evaluate trackers
 evalType = 'OPE'; % the evaluation type such as 'OPE','SRE','TRE'
+resultPath = ['./results/results_' evalType '/'];
 % rankingType = 'AUC'; %AUC, threshold
-
-
 seqs = configSeqs(fullfile(datasetPath,'sequences')); % the set of sequences
        
 numSeq = length(seqs);
@@ -87,7 +86,7 @@ for i = 1:length(metricTypeSet)
 
     % If the performance Mat file, dataName, does not exist, it will call genPerfMat to generate the file.
     if(~exist(dataName, 'file') || reEvalFlag)
-        genPerfMat(datasetPath, seqs, trackers, evalType, nameTrkAll, perfMatPath);
+        genPerfMat(datasetPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath);
     end        
 
     load(dataName);

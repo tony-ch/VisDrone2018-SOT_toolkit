@@ -10,9 +10,6 @@ for i = 1:length(nameFolds)
     seq.name = nameFolds{i};
     seq.path = fullfile(datasetPath, nameFolds{i});
     seq.startFrame = 1;
-    seq.endFrame = length(dir(fullfile(seq.path,'img*.jpg')));
-    seq.nz = 7;
-    seq.ext = 'jpg';
-    seq.init_rect = [0, 0, 0, 0];
+    seq.endFrame = length(dir(fullfile(seq.path)));
     seqs{i} = seq;
 end

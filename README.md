@@ -1,6 +1,26 @@
 # new readme
 modify repo to run OPE with multi tracker
 
+datasetPath:<br>
+|---sequences<br>
+|------seq1<br>
+|------seq2<br>
+|---annotations<br>
+|------seq1<br>
+|------seq2<br>
+
+resultPath:<br>
+|---results_OPE<br>
+|------Tracker1<br>
+|---------seq1<br>
+|---------seq2<br>
+|------Tracker2<br>
+|---------seq1<br>
+|---------seq2<br>
+
+`datasetPath` and `resultPath` are in `plotEval.m`. Trackers can be can by modifying `util\configTrackers.m`, add tracker by insert a new line like `struct('name','ACT','namePaper','ACT')`.
+
+
 # original readme
 VisDrone2018-SOT Tooklit for Single-Object Tracking
 

@@ -4,12 +4,16 @@ warning off all;
 addpath(genpath('.')); 
 
 datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
-trackers = configTrackers; % the set of trackers
+trackers = {
+            struct('name','ACT','namePaper','ACT')
+            struct('name','GT','namePaper','GT')
+            }; % the set of trackers
+
 reEvalFlag = 1; % the flag to re-evaluate trackers
 evalType = 'OPE'; % the evaluation type such as 'OPE','SRE','TRE'
 resultPath = ['./results/results_' evalType '/'];
 % rankingType = 'AUC'; %AUC, threshold
-seqs = configSeqs(fullfile(datasetPath,'sequences')); % the set of sequences
+seqs = configSeqs(fullfile(datasetPath,'sequences'), 'test_seqs.txt'); % the set of sequences
 annoPath = fullfile(datasetPath, 'annotations');
        
 numSeq = length(seqs);

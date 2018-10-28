@@ -1,6 +1,6 @@
-function seqs = configSeqs(datasetPath)
+function seqs = configSeqs(datasetPath, seqlistPath)
 
-test_seq_file = fullfile(datasetPath,'test_seqs.txt');
+test_seq_file = fullfile(datasetPath,seqlistPath);
 if exist(test_seq_file,'file')
     % run eval on seq listed in this file
     nameFolds = importdata(test_seq_file);

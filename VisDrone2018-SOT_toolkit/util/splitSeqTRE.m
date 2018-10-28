@@ -21,7 +21,6 @@ subSeqs = [];
 
 for i = 1:length(startFrIdxOne)
     index = Idx(startFrIdxOne(i));
-    subS.path = seq.path;
     
     subS.startFrame = index+seq.startFrame-1;
     subS.endFrame = seq.endFrame;

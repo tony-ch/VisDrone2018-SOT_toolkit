@@ -8,8 +8,7 @@ nameFolds(ismember(nameFolds,{'.','..'})) = [];
 seqs = cell(1, length(nameFolds));
 for i = 1:length(nameFolds)
     seq.name = nameFolds{i};
-    seq.path = fullfile(datasetPath, nameFolds{i});
     seq.startFrame = 1;
-    seq.endFrame = length(dir(fullfile(seq.path)));
+    seq.endFrame = length(dir(fullfile(datasetPath, nameFolds{i})));
     seqs{i} = seq;
 end

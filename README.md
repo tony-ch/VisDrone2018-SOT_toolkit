@@ -5,11 +5,11 @@ datasetPath:<br>
 |---sequences<br>
 |------test_seqs.txt (Optional, specify seqs to run evaluation)<br>
 |------seq1<br>
-|---------img1
-|---------img2
+|---------img1<br>
+|---------img2<br>
 |------seq2<br>
-|---------img1
-|---------img2
+|---------img1<br>
+|---------img2<br>
 |---annotations<br>
 |------seq1<br>
 |------seq2<br>
@@ -24,11 +24,15 @@ resultPath:<br>
 |---------seq2.txt/mat<br>
 
 - `datasetPath`: dataset path, put imgs and annotaions there
-- `resultPath`: results to evaluate, put text or mat files there
+  - put images under `sequences`, each sequence has a floder
+  - `test_seqs.txt` under `sequences` is used to specify sequences(if not all seqs under `sequences` have results) to run evaluation, each seq(folder) takes one line
+  - put annatatons under `annotations`, each sequence folder has a txt file, both of them should have has the same name
+  - the names of `sequences` and `annotations` under `datasetPath` can be changed in `plotEval.m`, find `configSeqs` and `annoPath` to locale them
+- `resultPath`: results to evaluate, put txt(mat) files there
+  - each txt(mat) file coresponds to a sequences under `dataPath/sequences/`, its name should match with coresponding sequences(folder) name
+  - each tracker has a folder, folder names must match with names of trackers
+  - Trackers can be added by modifying `plotEval.m`, insert a new line like `struct('name','ACT','namePaper','ACT')` to add a tracker.
 - `datasetPath` and `resultPath` can be changed in `plotEval.m`
-- names of `sequences` and `annotations` under `datasetPath` can be changed in `plotEval.m`, find `configSeqs` and `annoPath` to locale them
-- `test_seqs.txt` under `sequences` is used to specify sequences(if not all seqs under `sequences` have results) to run evaluation, each seq(folder) takes one line
-- Trackers can be added by modifying `plotEval.m`, insert a new line like `struct('name','ACT','namePaper','ACT')` to add a tracker.
 
 
 # original readme

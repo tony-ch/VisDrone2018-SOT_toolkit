@@ -3,7 +3,7 @@ modify repo to run OPE with multi tracker
 
 datasetPath:<br>
 |---sequences<br>
-|------test_seqs.txt (Optional, specify seqs to run evaluation)
+|------test_seqs.txt (Optional, specify seqs to run evaluation)<br>
 |------seq1<br>
 |------seq2<br>
 |---annotations<br>

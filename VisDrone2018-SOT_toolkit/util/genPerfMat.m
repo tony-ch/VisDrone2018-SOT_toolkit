@@ -1,6 +1,5 @@
-function genPerfMat(datasetPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath)
+function genPerfMat(annoPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath)
 
-pathAnno = fullfile(datasetPath, 'annotations');
 numTrk = length(trackers);
 
 thresholdSetOverlap = 0:0.05:1;
@@ -21,7 +20,7 @@ for idxSeq=1:length(seqs)
         % s.s_frames{i} = strcat(s.path,id,'.',s.ext);
     end
     
-    rect_anno = dlmread([pathAnno '/' s.name '.txt']);
+    rect_anno = dlmread([annoPath '/' s.name '.txt']);
     numSeg = 20;
     [subSeqs, subAnno] = splitSeqTRE(s,numSeg,rect_anno);
     

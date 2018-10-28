@@ -10,6 +10,7 @@ evalType = 'OPE'; % the evaluation type such as 'OPE','SRE','TRE'
 resultPath = ['./results/results_' evalType '/'];
 % rankingType = 'AUC'; %AUC, threshold
 seqs = configSeqs(fullfile(datasetPath,'sequences')); % the set of sequences
+annoPath = fullfile(datasetPath, 'annotations');
        
 numSeq = length(seqs);
 numTrk = length(trackers);
@@ -86,7 +87,7 @@ for i = 1:length(metricTypeSet)
 
     % If the performance Mat file, dataName, does not exist, it will call genPerfMat to generate the file.
     if(~exist(dataName, 'file') || reEvalFlag)
-        genPerfMat(datasetPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath);
+        genPerfMat(annoPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath);
     end        
 
     load(dataName);

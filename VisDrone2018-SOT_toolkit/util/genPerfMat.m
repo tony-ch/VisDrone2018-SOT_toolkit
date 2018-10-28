@@ -29,18 +29,20 @@ for idxSeq=1:length(seqs)
     for idxTrk = 1:numTrk       
         t = trackers{idxTrk};        
         % check the result format
-        res_mat = [rpAll s.name '_' t.name '.mat'];
+        res_mat = [rpAll t.name '/' s.name '.mat'];
         if(~exist(res_mat, 'file'))
             res_txt = [rpAll t.name '/' s.name '.txt'];
-            results = cell(1,1);
-            results{1}.res = load(res_txt);
-            results{1}.type = 'rect';
-            results{1}.annoBegin = 1;
-            results{1}.startFrame = 1;
-            results{1}.len = size(results{1}.res, 1);
+            res = load(res_txt);
         else
-            load(res_mat);
+            res_mats = load(res_mat);
+            res = res_mats.s.bb;
         end
+        results = cell(1,1);
+        results{1}.res = res;
+        results{1}.type = 'rect';
+        results{1}.annoBegin = 1;
+        results{1}.startFrame = 1;
+        results{1}.len = size(results{1}.res, 1);
         
         disp([s.name ' ' t.name]);
         

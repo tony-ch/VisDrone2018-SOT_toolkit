@@ -14,6 +14,12 @@ trackers = {
             struct('name','GT','namePaper','GT')
             }; % the set of trackers
 
+attrPath = fullfile(datasetPath, 'attributes');  % the folder that contains the annotation files for sequence attributes
+attName = {'Aspect Ratio Change','Background Clutter','Camera Motion','Fast Motion','Full Occlusion','Illumination Variation','Low Resolution',...
+           'Out-of-View','Partial Occlusion','Similar Object','Scale Variation','Viewpoint Change'};
+attFigName = {'Aspect_Ratio_Change','Background_Clutter','Camera_Motion','Fast_Motion','Full_Occlusion','Illumination_Variation','Low_Resolution',...
+           'Out-of-View','Partial_Occlusion','Similar_Object','Scale_Variation','Viewpoint_Change'};
+
 reEvalFlag = 1; % the flag to re-evaluate trackers
 numSeq = length(seqs);
 numTrk = length(trackers);
@@ -33,7 +39,10 @@ for idxSeq = 1:numSeq
     nameSeqAll{idxSeq} = s.name;    
     s.len = s.endFrame - s.startFrame + 1;
     numAllSeq(idxSeq) = s.len;
+    att(idxSeq,:) = load([attrPath '/' s.name '_attr.txt']);
 end
+
+attNum = size(att,2);
 
 figPath = './figs/overall/';
 
@@ -85,7 +94,8 @@ for i = 1:length(metricTypeSet)
         case 'error'
             titleName = ['Precision plots of ' evalType];
     end
-
+    disp(titleName);
+    
     dataName = [perfMatPath 'aveSuccessRatePlot_' num2str(numTrk) 'alg_'  plotType '.mat'];
 
     % If the performance Mat file, dataName, does not exist, it will call genPerfMat to generate the file.
@@ -103,5 +113,27 @@ for i = 1:length(metricTypeSet)
     idxSeqSet = 1:length(seqs);
 
     %% draw and save the overall performance plot
-    plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName);      
+    plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName);
+    
+    %% draw and save the performance plot for each attribute
+    attTrld = 0;
+    for attIdx = 1:attNum
+        idxSeqSet = find(att(:,attIdx)>attTrld);
+        if(length(idxSeqSet)<2)
+            continue;
+        end
+        disp([attName{attIdx} ' ' num2str(length(idxSeqSet))])
+
+        figName = [figPath attFigName{attIdx} '_'  plotType '_' rankingType];
+        titleName = ['Plots of ' evalType ': ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
+
+        switch metricType
+            case 'overlap'
+                titleName = ['Success plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
+            case 'error'
+                titleName = ['Precision plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
+        end
+
+        plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName);
+    end
 end

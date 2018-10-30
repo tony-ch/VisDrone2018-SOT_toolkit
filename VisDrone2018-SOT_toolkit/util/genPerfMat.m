@@ -43,7 +43,7 @@ for idxSeq=1:length(seqs)
         results{1}.startFrame = 1;
         results{1}.len = size(results{1}.res, 1);
         
-        disp([s.name ' ' t.name]);
+        % disp([s.name ' ' t.name]);
         
         aveCoverageAll = [];
         aveErrCenterAll = [];

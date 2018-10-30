@@ -11,8 +11,11 @@ datasetPath:<br>
 |---------img1<br>
 |---------img2<br>
 |---annotations<br>
-|------seq1<br>
-|------seq2<br>
+|------seq1.txt<br>
+|------seq2.txt<br>
+|---attributes<br>
+|------seq1_attr.txt<br>
+|------seq2_attr.txt<br>
 
 resultPath:<br>
 |---results_OPE<br>
@@ -23,11 +26,12 @@ resultPath:<br>
 |---------seq1.txt/mat<br>
 |---------seq2.txt/mat<br>
 
-- `datasetPath`: dataset path, put imgs and annotaions there
+- `datasetPath`: dataset path, put imgs, annotaions and attribute labels there
   - put images under `sequences`, each sequence has a floder
   - `test_seqs.txt` under `sequences` is used to specify sequences(if not all seqs under `sequences` have results) to run evaluation, each seq(folder) takes one line
   - put annatatons under `annotations`, each sequence folder has a txt file, both of them should have has the same name
   - the names of `sequences` and `annotations` under `datasetPath` can be changed in `plotEval.m`, find `configSeqs` and `annoPath` to locale them
+  - put attribute labels under `attributes`, files names should be like `%seq_name%_attr.txt`.
 - `resultPath`: results to evaluate, put txt(mat) files there
   - each txt(mat) file coresponds to a sequences under `dataPath/sequences/`, its name should match with coresponding sequences(folder) name
   - each tracker has a folder, folder names must match with names of trackers

@@ -32,9 +32,11 @@ for idxTrk = indexSort(1:rankNum)
         case 'AUC'
             score = mean(bb);
             tmp=sprintf('%.1f', score*100);
+            disp([nameTrkAll{idxTrk} ' : ' tmp]);
         case 'threshold'
             score = bb(rankIdx);
             tmp=sprintf('%.1f', score*100);
+            disp([nameTrkAll{idxTrk} ' : ' tmp]);
     end    
     
     tmpName{i} = [nameTrkAll{idxTrk} ' [' tmp ']'];

@@ -50,24 +50,14 @@ for index_seq = 1:length(seqs)
         end
         results = cell(1,1);
         results{1}.res = res;
-        results{1}.type = 'rect';
-        results{1}.annoBegin = 1;
-        results{1}.startFrame = 1;
         results{1}.len = size(results{1}.res, 1);
         
-        res = results{rstIdx};
+        res = results{1};
         
-        if(~isfield(res,'type') && isfield(res,'transformType'))
-            res.type = res.transformType;
-            res.res = res.res';
-        end
-            
-        if strcmp(res.type,'rect')
-            for i = 2:res.len
-                r = res.res(i,:);               
-                if(isnan(r) | r(3)<=0 | r(4)<=0)
-                    res.res(i,:)=res.res(i-1,:);
-                end
+        for i = 2:res.len
+            r = res.res(i,:);               
+            if(isnan(r) | r(3)<=0 | r(4)<=0)
+                res.res(i,:)=res.res(i-1,:);
             end
         end
         resultsAll{index_algrm} = res;
@@ -80,10 +70,6 @@ for index_seq = 1:length(seqs)
     
     filenames = dir(fullfile(seq.path,'*.jpg'));
     for i = 1:seq_length
-        % image_no = seq.startFrame + (i-1);
-        % id = sprintf(strcat('img%0',num2str(7),'d'), image_no);
-        % id = sprintf(strcat('img%07d'), image_no);
-        % fileName = strcat(seq.path,'/',id,'.',seq.ext); 
         filename = filenames(i).name; 
         id = filename(end-7:end-4);
         img = imread(fullfile(seq.path,filename));
@@ -95,31 +81,8 @@ for index_seq = 1:length(seqs)
         for j = 1:length(trackers)           
             LineStyle = plotDrawStyle{j}.lineStyle;
             
-            switch resultsAll{j}.type
-                case 'rect'
-                    rectangle('Position', resultsAll{j}.res(i,:), 'EdgeColor', plotDrawStyle{j}.color, 'LineWidth', LineWidth,'LineStyle',LineStyle);
-                    hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
-                case 'ivtAff'
-                    drawbox(resultsAll{j}.tmplsize, resultsAll{j}.res(i,:), 'Color', plotDrawStyle{j}.color, 'LineWidth', LineWidth,'LineStyle',LineStyle);
-                case 'L1Aff'
-                    drawAffine(resultsAll{j}.res(i,:), resultsAll{j}.tmplsize, plotDrawStyle{j}.color, LineWidth, LineStyle);                    
-                case 'LK_Aff'
-                    [corner, c] = getLKcorner(resultsAll{j}.res(2*i-1:2*i,:), resultsAll{j}.tmplsize);
-                    hold on,
-                    plot([corner(1,:) corner(1,1)], [corner(2,:) corner(2,1)], 'Color', plotDrawStyle{j}.color,'LineWidth',LineWidth,'LineStyle',LineStyle);
-                case '4corner'
-                    corner = resultsAll{j}.res(2*i-1:2*i,:);
-                    hold on,
-                    plot([corner(1,:) corner(1,1)], [corner(2,:) corner(2,1)], 'Color', plotDrawStyle{j}.color,'LineWidth',LineWidth,'LineStyle',LineStyle);
-                case 'SIMILARITY'
-                    warp_p = parameters_to_projective_matrix(resultsAll{j}.type,resultsAll{j}.res(i,:));
-                    [corner, c] = getLKcorner(warp_p, resultsAll{j}.tmplsize);
-                    hold on,
-                    plot([corner(1,:) corner(1,1)], [corner(2,:) corner(2,1)], 'Color', plotDrawStyle{j}.color,'LineWidth',LineWidth,'LineStyle',LineStyle);
-                otherwise
-                    disp('The type of output is not supported!')
-                    continue;
-            end
+            rectangle('Position', resultsAll{j}.res(i,:), 'EdgeColor', plotDrawStyle{j}.color, 'LineWidth', LineWidth,'LineStyle',LineStyle);
+            hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
         end
         if showLegend
             legend(trackerNames(:),'Interpreter', 'none','fontsize',legendFontSize);

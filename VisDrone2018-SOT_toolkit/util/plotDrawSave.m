@@ -40,7 +40,8 @@ for idxTrk = indexSort(1:rankNum)
     end    
     
     tmpName{i} = [nameTrkAll{idxTrk} ' [' tmp ']'];
-    h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{i}.color, 'lineStyle', plotDrawStyle{i}.lineStyle,'lineWidth', 1,'Parent',axes1);
+    % h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{i}.color, 'lineStyle', plotDrawStyle{i}.lineStyle,'lineWidth', 1,'Parent',axes1);
+    h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{idxTrk}.color, 'lineStyle', plotDrawStyle{idxTrk}.lineStyle,'lineWidth', 1,'Parent',axes1);
     hold on
     i=i+1;
 end

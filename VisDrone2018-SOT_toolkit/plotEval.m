@@ -12,6 +12,8 @@ resultPath = ['./results/results_' evalType '/'];
 trackers = {
             struct('name','ACT','namePaper','ACT')
             struct('name','GT','namePaper','GT')
+            struct('name','adnet','namePaper','ADNet')
+            struct('name','sdnet','namePaper','meta-SDNet')
             }; % the set of trackers
 
 attrPath = fullfile(datasetPath, 'attributes');  % the folder that contains the annotation files for sequence attributes
@@ -54,8 +56,9 @@ end
 
 metricTypeSet = {'overlap','error'};
 
-rankNum = 10;%number of plots to show------------------------------------------------------------------------
-plotDrawStyle = getDrawStyle(rankNum);
+rankNum = -1;%number of plots to show------------------------------------------------------------------------
+%plotDrawStyle = getDrawStyle(rankNum);
+plotSetting;
 
 thresholdSetOverlap = 0:0.05:1;
 thresholdSetError = 0:50;

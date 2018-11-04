@@ -14,7 +14,8 @@ end
 seqs = cell(1, length(nameFolds));
 for i = 1:length(nameFolds)
     seq.name = nameFolds{i};
+    seq.path = fullfile(datasetPath, nameFolds{i});
     seq.startFrame = 1;
-    seq.endFrame = length(dir(fullfile(datasetPath, nameFolds{i})));
+    seq.endFrame = length(dir(fullfile(seq.path,'*.jpg')));
     seqs{i} = seq;
 end

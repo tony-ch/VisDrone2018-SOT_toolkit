@@ -1,6 +1,7 @@
 # new readme
 modify repo to run OPE with multi tracker
 
+## plot evaluation result
 datasetPath:<br>
 |---sequences<br>
 |------test_seqs.txt (Optional, specify seqs to run evaluation)<br>
@@ -38,6 +39,13 @@ resultPath:<br>
   - Trackers can be added by modifying `plotEval.m`, insert a new line like `struct('name','ACT','namePaper','ACT')` to add a tracker.
 - `datasetPath` and `resultPath` can be changed in `plotEval.m`
 
+## plot result bounding box
+run `drawResultBB.m` to draw bounding box result.
+- `datasetPath` and `resultPath` are like those in `plotEval.m`
+- `drawResPath` is used to store the pictures with bounding box
+- plot paras:
+ - set `showLegend` to true if needed
+ - styles and colors are defined in `util/plotSetting`, `plotEval.m` uses the same setting, so the style and color of the same tracker will be identical(order of trackers in both files should be same).
 
 # original readme
 VisDrone2018-SOT Tooklit for Single-Object Tracking

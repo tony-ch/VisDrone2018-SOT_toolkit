@@ -21,6 +21,7 @@ fontSize = configPlot.fontSize;%16
 fontSizeLegend = configPlot.fontSizeLegend;%10
 lineWidth = configPlot.lineWidth;%2
 fontSizeAxes = configPlot.fontSizeAxes;%14
+location = configPlot.location;
 
 i=1;
 
@@ -56,7 +57,7 @@ axes1.FontName = 'Times New Roman';
 axes1.FontSize = fontSizeAxes;
 axes1.FontWeight = 'bold';
 
-legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend,'FontWeight','bold','FontName','Times New Roman','Location','southeast');
+legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend,'FontWeight','bold','FontName','Times New Roman','Location',location);
 title(titleName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
 xlabel(xLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
 ylabel(yLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');

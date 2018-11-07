@@ -103,7 +103,9 @@ for i = 1:length(metricTypeSet)
     switch metricType
         case 'overlap'
             titleName = ['Success plots of ' evalType];
+            configPlot.location = 'southwest';
         case 'error'
+            configPlot.location = 'southeast';
             titleName = ['Precision plots of ' evalType];
     end
     disp(titleName);
@@ -141,8 +143,10 @@ for i = 1:length(metricTypeSet)
 
         switch metricType
             case 'overlap'
+                 configPlot.location = 'southwest';
                 titleName = ['Success plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
             case 'error'
+                configPlot.location = 'southeast';
                 titleName = ['Precision plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
         end
 

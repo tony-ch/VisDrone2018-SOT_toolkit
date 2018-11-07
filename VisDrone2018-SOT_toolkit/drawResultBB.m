@@ -88,7 +88,7 @@ for index_seq = 1:length(seqs)
             hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
         end
         if showLegend
-            legend(trackerNames(:),'Interpreter', 'none','fontsize',legendFontSize,'FontName','Times New Roman');
+            legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman');
         end
         pause(0.1);
         imwrite(frame2im(getframe(gcf)), [pathSave  filename]);

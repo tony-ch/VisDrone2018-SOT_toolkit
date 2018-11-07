@@ -23,9 +23,12 @@ lineWidth = configPlot.lineWidth;%2
 fontSizeAxes = configPlot.fontSizeAxes;%14
 
 i=1;
+
 figure1 = figure;
 
-axes1 = axes('Parent',figure1,'FontSize',fontSizeAxes,'FontName','Times New Roman');
+axes1 = axes('Parent',figure1);
+
+
 for idxTrk = indexSort(1:rankNum)
     tmp = aveSuccessRatePlot(idxTrk,idxSeqSet,:);
     aa = reshape(tmp,[length(idxSeqSet),size(aveSuccessRatePlot,3)]);
@@ -49,11 +52,14 @@ for idxTrk = indexSort(1:rankNum)
     i=i+1;
 end
 
+axes1.FontName = 'Times New Roman';
+axes1.FontSize = fontSizeAxes;
+axes1.FontWeight = 'bold';
 
-legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend,'FontName','Times New Roman');
-title(titleName,'fontsize',fontSize,'FontName','Times New Roman');
-xlabel(xLabelName,'fontsize',fontSize,'FontName','Times New Roman');
-ylabel(yLabelName,'fontsize',fontSize,'FontName','Times New Roman');
+legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend,'FontWeight','bold','FontName','Times New Roman','Location','southeast');
+title(titleName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
+xlabel(xLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
+ylabel(yLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
 hold off
 
 saveas(gcf,figName,'png');

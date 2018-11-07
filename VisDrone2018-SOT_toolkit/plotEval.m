@@ -27,7 +27,7 @@ attFigName = {'Aspect_Ratio_Change','Background_Clutter','Camera_Motion','Fast_M
 configPlot.fontSize = 16;
 configPlot.fontSizeLegend = 12;
 configPlot.lineWidth = 2;
-configPlot.fontSizeAxes = 12;
+configPlot.fontSizeAxes = 14;
 
 %%
 

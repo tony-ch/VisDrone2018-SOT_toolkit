@@ -3,6 +3,7 @@ clear, clc;
 warning off all;
 addpath(genpath('.')); 
 
+%% path config
 datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
 seqs = configSeqs(fullfile(datasetPath,'sequences'), 'test_seqs.txt'); % the set of sequences
 annoPath = fullfile(datasetPath, 'annotations');
@@ -21,6 +22,14 @@ attName = {'Aspect Ratio Change','Background Clutter','Camera Motion','Fast Moti
            'Out-of-View','Partial Occlusion','Similar Object','Scale Variation','Viewpoint Change'};
 attFigName = {'Aspect_Ratio_Change','Background_Clutter','Camera_Motion','Fast_Motion','Full_Occlusion','Illumination_Variation','Low_Resolution',...
            'Out-of-View','Partial_Occlusion','Similar_Object','Scale_Variation','Viewpoint_Change'};
+
+%% plot config     
+configPlot.fontSize = 16;
+configPlot.fontSizeLegend = 12;
+configPlot.lineWidth = 2;
+configPlot.fontSizeAxes = 12;
+
+%%
 
 reEvalFlag = 1; % the flag to re-evaluate trackers
 numSeq = length(seqs);
@@ -62,7 +71,7 @@ plotSetting;
 
 thresholdSetOverlap = 0:0.05:1;
 thresholdSetError = 0:50;
-
+%%% 
 for i = 1:length(metricTypeSet)
     metricType = metricTypeSet{i};%error,overlap
     
@@ -116,7 +125,7 @@ for i = 1:length(metricTypeSet)
     idxSeqSet = 1:length(seqs);
 
     %% draw and save the overall performance plot
-    plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName);
+    plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
     
     %% draw and save the performance plot for each attribute
     attTrld = 0;
@@ -137,6 +146,6 @@ for i = 1:length(metricTypeSet)
                 titleName = ['Precision plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
         end
 
-        plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName);
+        plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
     end
 end

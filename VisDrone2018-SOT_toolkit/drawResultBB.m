@@ -3,6 +3,7 @@ clear, clc;
 warning off all;
 addpath(genpath('.')); 
 
+%% path config
 datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
 seqs = configSeqs(fullfile(datasetPath,'sequences'), 'test_seqs.txt'); % the set of sequences
 
@@ -18,12 +19,14 @@ resultPath = ['./results/results_' evalType '/']; % the folder containing the tr
 
 drawResPath = './figs/box/';% the folder that will stores the images with overlaid bounding box
 
+%% plot config
 showLegend = true; % show legend or not
-LineWidth = 2;
-legendFontSize = 10;
+LineWidth = 4;
+idFontSize = 24;
+legendFontSize = 14;
 plotSetting; % set plot style and color
 
-
+%% 
 rstIdx = 1; % the result index (1~20)
 lenTotalSeq = 0;
 resultsAll = [];
@@ -76,7 +79,7 @@ for index_seq = 1:length(seqs)
 
         imshow(img);
 
-        text(5, 20, ['#' id], 'Color','y', 'FontWeight','bold', 'FontSize',24);
+        text(5, 20, ['#' id], 'Color','y', 'FontWeight','bold', 'FontSize',idFontSize,'FontName','Times New Roman');
         
         for j = 1:length(trackers)           
             LineStyle = plotDrawStyle{j}.lineStyle;
@@ -85,7 +88,7 @@ for index_seq = 1:length(seqs)
             hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
         end
         if showLegend
-            legend(trackerNames(:),'Interpreter', 'none','fontsize',legendFontSize);
+            legend(trackerNames(:),'Interpreter', 'none','fontsize',legendFontSize,'FontName','Times New Roman');
         end
         pause(0.1);
         imwrite(frame2im(getframe(gcf)), [pathSave  filename]);

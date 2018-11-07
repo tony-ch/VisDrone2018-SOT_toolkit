@@ -1,4 +1,4 @@
-function plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName,xLabelName,yLabelName,figName)
+function plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName,xLabelName,yLabelName,figName,configPlot)
 
 for idxTrk = 1:numTrk
     %each row is the sr plot of one sequence
@@ -16,13 +16,16 @@ end
 
 [~,indexSort] = sort(perf,'descend');
 
-i=1;
-fontSize = 16;
-fontSizeLegend = 10;
 
+fontSize = configPlot.fontSize;%16
+fontSizeLegend = configPlot.fontSizeLegend;%10
+lineWidth = configPlot.lineWidth;%2
+fontSizeAxes = configPlot.fontSizeAxes;%14
+
+i=1;
 figure1 = figure;
 
-axes1 = axes('Parent',figure1,'FontSize',14);
+axes1 = axes('Parent',figure1,'FontSize',fontSizeAxes,'FontName','Times New Roman');
 for idxTrk = indexSort(1:rankNum)
     tmp = aveSuccessRatePlot(idxTrk,idxSeqSet,:);
     aa = reshape(tmp,[length(idxSeqSet),size(aveSuccessRatePlot,3)]);
@@ -41,16 +44,16 @@ for idxTrk = indexSort(1:rankNum)
     
     tmpName{i} = [nameTrkAll{idxTrk} ' [' tmp ']'];
     % h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{i}.color, 'lineStyle', plotDrawStyle{i}.lineStyle,'lineWidth', 1,'Parent',axes1);
-    h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{idxTrk}.color, 'lineStyle', plotDrawStyle{idxTrk}.lineStyle,'lineWidth', 1,'Parent',axes1);
+    h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{idxTrk}.color, 'lineStyle', plotDrawStyle{idxTrk}.lineStyle,'lineWidth', lineWidth,'Parent',axes1);
     hold on
     i=i+1;
 end
 
 
-legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend);
-title(titleName,'fontsize',fontSize);
-xlabel(xLabelName,'fontsize',fontSize);
-ylabel(yLabelName,'fontsize',fontSize);
+legend(tmpName,'Interpreter', 'none','fontsize',fontSizeLegend,'FontName','Times New Roman');
+title(titleName,'fontsize',fontSize,'FontName','Times New Roman');
+xlabel(xLabelName,'fontsize',fontSize,'FontName','Times New Roman');
+ylabel(yLabelName,'fontsize',fontSize,'FontName','Times New Roman');
 hold off
 
 saveas(gcf,figName,'png');

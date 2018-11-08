@@ -23,7 +23,8 @@ drawResPath = './figs/box/';% the folder that will stores the images with overla
 showLegend = true; % show legend or not
 LineWidth = 4;
 idFontSize = 24;
-legendFontSize = 14;
+legendFontSize = 20;
+legendPadding = 8; % set padding between legend items
 plotSetting; % set plot style and color
 
 %% 
@@ -40,7 +41,7 @@ for index_seq = 1:length(seqs)
     for index_algrm = 1:length(trackers)
         algrm = trackers{index_algrm};
         name = algrm.name;
-        trackerNames{index_algrm} = name;
+        trackerNames{index_algrm} = [ name repmat(char(3),1,legendPadding) 0];
         
         % check the result format       
         res_mat = [resultPath name '/' seq_name '.mat'];
@@ -88,9 +89,14 @@ for index_seq = 1:length(seqs)
             hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
         end
         if showLegend
-            legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman');
+            
+            [~,OBJH,~,~] = legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location','southoutside','Orientation','Horizontal');
+            for j=1:length(trackers)
+                set(OBJH(j),'String',trackers{j}.name);
+            end
+            legend('boxoff');
         end
-        pause(0.1);
+        pause(0.3);
         imwrite(frame2im(getframe(gcf)), [pathSave  filename]);
     end
     clf

@@ -59,8 +59,14 @@ figPath = './figs/overall/';
 
 perfMatPath = './perfMat/overall/';
 
+attrSeqListPath = './attrSeqList';
+
 if ~exist(figPath,'dir')
     mkdir(figPath);
+end
+
+if ~exist(attrSeqListPath,'dir')
+    mkdir(attrSeqListPath);
 end
 
 metricTypeSet = {'overlap','error'};
@@ -137,7 +143,13 @@ for i = 1:length(metricTypeSet)
             continue;
         end
         disp([attName{attIdx} ' ' num2str(length(idxSeqSet))])
-
+        fid = fopen([attrSeqListPath '/' attName{attIdx} '.txt'],'w');
+        for idx = 1:length(idxSeqSet)
+            s = seqs{idxSeqSet(idx)};
+            disp(s.name);
+            fprintf(fid,'%s\n',s.name);
+        end
+        fclose(fid);
         figName = [figPath attFigName{attIdx} '_'  plotType '_' rankingType];
         titleName = ['Plots of ' evalType ': ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
 

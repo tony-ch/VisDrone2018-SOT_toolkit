@@ -71,14 +71,14 @@ for index_seq = 1:length(seqs)
     if(~exist(pathSave,'dir'))
         mkdir(pathSave);
     end
-    
     filenames = dir(fullfile(seq.path,'*.jpg'));
+    clf
     for i = 1:seq_length
         filename = filenames(i).name; 
         id = filename(end-7:end-4);
         img = imread(fullfile(seq.path,filename));
 
-        imshow(img);
+        imshow(img,'border','tight');
 
         text(5, 20, ['#' id], 'Color','y', 'FontWeight','bold', 'FontSize',idFontSize,'FontName','Times New Roman');
         
@@ -90,14 +90,13 @@ for index_seq = 1:length(seqs)
         end
         if showLegend
             
-            [~,OBJH,~,~] = legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location','southoutside','Orientation','Horizontal');
+            [~,OBJH,~,~] = legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location','south','Orientation','Horizontal');
             for j=1:length(trackers)
                 set(OBJH(j),'String',trackers{j}.name);
             end
-            legend('boxoff');
+            %legend('boxoff');
         end
         pause(0.3);
         imwrite(frame2im(getframe(gcf)), [pathSave  filename]);
     end
-    clf
 end

@@ -1,4 +1,4 @@
-function plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName,xLabelName,yLabelName,figName,configPlot)
+function eval_res = plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName,xLabelName,yLabelName,figName,configPlot)
 
 for idxTrk = 1:numTrk
     %each row is the sr plot of one sequence
@@ -47,6 +47,7 @@ for idxTrk = indexSort(1:rankNum)
     end    
     
     tmpName{i} = [nameTrkAll{idxTrk} ' [' tmp ']'];
+    eval_res{i} = {nameTrkAll{idxTrk},tmp};
     % h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{i}.color, 'lineStyle', plotDrawStyle{i}.lineStyle,'lineWidth', 1,'Parent',axes1);
     h(i) = plot(thresholdSet,bb,'color',plotDrawStyle{idxTrk}.color, 'lineStyle', plotDrawStyle{idxTrk}.lineStyle,'lineWidth', lineWidth,'Parent',axes1);
     hold on

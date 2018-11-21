@@ -61,12 +61,18 @@ perfMatPath = './perfMat/overall/';
 
 attrSeqListPath = './attrSeqList';
 
+evalResPath = './evalRes';
+
 if ~exist(figPath,'dir')
     mkdir(figPath);
 end
 
 if ~exist(attrSeqListPath,'dir')
     mkdir(attrSeqListPath);
+end
+
+if ~exist(evalResPath,'dir')
+    mkdir(evalResPath);
 end
 
 metricTypeSet = {'overlap','error'};
@@ -133,8 +139,12 @@ for i = 1:length(metricTypeSet)
     idxSeqSet = 1:length(seqs);
 
     %% draw and save the overall performance plot
-    plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
-    
+    eval_res = plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
+    fid = fopen([evalResPath '/' titleName '.txt'],'w');
+    for idx = 1:numTrk
+        fprintf(fid,'%s\t%s\n',eval_res{idx}{1},eval_res{idx}{2});
+    end
+    fclose(fid);
     %% draw and save the performance plot for each attribute
     attTrld = 0;
     for attIdx = 1:attNum
@@ -162,6 +172,11 @@ for i = 1:length(metricTypeSet)
                 titleName = ['Precision plots of ' evalType ' - ' attName{attIdx} ' (' num2str(length(idxSeqSet)) ')'];
         end
 
-        plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
+        eval_res = plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
+        fid = fopen([evalResPath '/' titleName '.txt'],'w');
+        for idx = 1:numTrk
+            fprintf(fid,'%s\t%s\n',eval_res{idx}{1},eval_res{idx}{2});
+        end
+        fclose(fid);
     end
 end

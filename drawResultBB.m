@@ -4,7 +4,7 @@ warning off all;
 addpath(genpath('.')); 
 
 %% path config
-datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
+datasetPath = '/home/tony/data/2018/1027_drone/drone2018/'; % the dataset path
 seqs = configSeqs(fullfile(datasetPath,'sequences'), 'test_seqs.txt'); % the set of sequences
 
 trackers = {
@@ -15,9 +15,9 @@ trackers = {
             }; % the set of trackers
 
 evalType = 'OPE'; % the evaluation types such as OPE, SRE and TRE
-resultPath = ['./results/results_' evalType '/']; % the folder containing the tracking results
+resultPath = ['./trackRes/results_' evalType '/']; % the folder containing the tracking results
 
-drawResPath = './figs/box/';% the folder that will stores the images with overlaid bounding box
+drawResPath = './evalRes/figs/box/';% the folder that will stores the images with overlaid bounding box
 
 %% plot config
 showLegend = true; % show legend or not

@@ -18,7 +18,7 @@ datasetPath:<br>
 |------seq1_attr.txt<br>
 |------seq2_attr.txt<br>
 
-resultPath:<br>
+trackResPath:<br>
 |---results_OPE<br>
 |------Tracker1 (folder name should match with tracker name in PlotEval.m)<br>
 |---------seq1.txt/mat (txt or mat file, its name should match with coresponding folder name under datasetPath/sequences)<br>
@@ -33,19 +33,31 @@ resultPath:<br>
   - put annatatons under `annotations`, each sequence folder has a txt file, both of them should have has the same name
   - the names of `sequences` and `annotations` under `datasetPath` can be changed in `plotEval.m`, find `configSeqs` and `annoPath` to locale them
   - put attribute labels under `attributes`, files names should be like `%seq_name%_attr.txt`.
-- `resultPath`: results to evaluate, put txt(mat) files there
+- `trackResPath`: results to evaluate, put txt(mat) files there
   - each txt(mat) file coresponds to a sequences under `dataPath/sequences/`, its name should match with coresponding sequences(folder) name
   - each tracker has a folder, folder names must match with names of trackers
   - Trackers can be added by modifying `plotEval.m`, insert a new line like `struct('name','ACT','namePaper','ACT')` to add a tracker.
-- `datasetPath` and `resultPath` can be changed in `plotEval.m`
+- `datasetPath` and `trackResPath` can be changed in `plotEval.m`
 
 ## plot result bounding box
 run `drawResultBB.m` to draw bounding box result.
-- `datasetPath` and `resultPath` are like those in `plotEval.m`
+- `datasetPath` and `trackResPath` are like those in `plotEval.m`
 - `drawResPath` is used to store the pictures with bounding box
 - plot paras:
  - set `showLegend` to true if needed
  - styles and colors are defined in `util/plotSetting`, `plotEval.m` uses the same setting, so the style and color of the same tracker will be identical(order of trackers in both files should be same).
+
+## plot radar chart over all attributes
+<p align="center">
+    <a>
+        <img src="evalRes/figs/attr_result.png" width="480">
+    </a>
+</p>
+run `attrRadar.m` to draw radar figure over all attributes.
+
+- `number_tracker_show` is the number of trackers to show in figure
+- `attr_names` is used as legend name for attributes
+
 
 # original readme
 VisDrone2018-SOT Tooklit for Single-Object Tracking

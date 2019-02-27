@@ -1,27 +1,27 @@
 close all;
 clear, clc;
 warning off all;
-addpath(genpath('.')); 
+addpath(genpath('.'));
 
 %% path config
-datasetPath = '/home/tony/app/ACT/dataset/data_sot/'; % the dataset path
+datasetPath = '/home/tony/data/2018/1027_drone/drone2018/'; % the dataset path
 seqs = configSeqs(fullfile(datasetPath,'sequences'), 'test_seqs.txt'); % the set of sequences
 annoPath = fullfile(datasetPath, 'annotations');
 
 evalType = 'OPE'; % the evaluation type such as 'OPE','SRE','TRE'
-resultPath = ['./results/results_' evalType '/'];
+trackResPath = ['./trackRes/results_' evalType '/'];
 trackers = {
             struct('name','ACT','namePaper','ACT')
             struct('name','GT','namePaper','GT')
             struct('name','adnet','namePaper','ADNet')
-            struct('name','sdnet','namePaper','meta-SDNet')
+            struct('name','sdnet','namePaper','meta_SDNet')
             }; % the set of trackers
 
 attrPath = fullfile(datasetPath, 'attributes');  % the folder that contains the annotation files for sequence attributes
 attName = {'Aspect Ratio Change','Background Clutter','Camera Motion','Fast Motion','Full Occlusion','Illumination Variation','Low Resolution',...
            'Out-of-View','Partial Occlusion','Similar Object','Scale Variation','Viewpoint Change'};
 attFigName = {'Aspect_Ratio_Change','Background_Clutter','Camera_Motion','Fast_Motion','Full_Occlusion','Illumination_Variation','Low_Resolution',...
-           'Out-of-View','Partial_Occlusion','Similar_Object','Scale_Variation','Viewpoint_Change'};
+           'Out_of_View','Partial_Occlusion','Similar_Object','Scale_Variation','Viewpoint_Change'};
 
 %% plot config     
 configPlot.fontSize = 16;
@@ -55,27 +55,20 @@ end
 
 attNum = size(att,2);
 
-figPath = './figs/overall/';
-
-perfMatPath = './perfMat/overall/';
-
-attrSeqListPath = './attrSeqList';
-
 evalResPath = './evalRes';
+figPath = './evalRes/figs/overall/';
+perfMatPath = './evalRes/perfMat/overall/';
+attrSeqListPath = './evalRes/attrSeqList';
+attrResPath = './evalRes/attrRes';
 
-if ~exist(figPath,'dir')
-    mkdir(figPath);
-end
-
-if ~exist(attrSeqListPath,'dir')
-    mkdir(attrSeqListPath);
-end
-
-if ~exist(evalResPath,'dir')
-    mkdir(evalResPath);
+for path_item = {figPath,perfMatPath,attrSeqListPath,attrResPath,evalResPath}
+    if ~exist(path_item{1},'dir')
+        mkdir(path_item{1});
+    end
 end
 
 metricTypeSet = {'overlap','error'};
+result = struct();
 
 rankNum = -1;%number of plots to show------------------------------------------------------------------------
 %plotDrawStyle = getDrawStyle(rankNum);
@@ -83,6 +76,7 @@ plotSetting;
 
 thresholdSetOverlap = 0:0.05:1;
 thresholdSetError = 0:50;
+
 %%% 
 for i = 1:length(metricTypeSet)
     metricType = metricTypeSet{i};%error,overlap
@@ -126,7 +120,7 @@ for i = 1:length(metricTypeSet)
 
     % If the performance Mat file, dataName, does not exist, it will call genPerfMat to generate the file.
     if(~exist(dataName, 'file') || reEvalFlag)
-        genPerfMat(annoPath, seqs, trackers, evalType, resultPath, nameTrkAll, perfMatPath);
+        genPerfMat(annoPath, seqs, trackers, evalType, trackResPath, nameTrkAll, perfMatPath);
     end        
 
     load(dataName);
@@ -140,9 +134,10 @@ for i = 1:length(metricTypeSet)
 
     %% draw and save the overall performance plot
     eval_res = plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
-    fid = fopen([evalResPath '/' titleName '.txt'],'w');
+    fid = fopen([attrResPath '/' titleName '.txt'],'w');
     for idx = 1:numTrk
         fprintf(fid,'%s\t%s\n',eval_res{idx}{1},eval_res{idx}{2});
+        result.(metricType).(eval_res{idx}{1}).all = str2double(eval_res{idx}{2});
     end
     fclose(fid);
     %% draw and save the performance plot for each attribute
@@ -173,10 +168,12 @@ for i = 1:length(metricTypeSet)
         end
 
         eval_res = plotDrawSave(numTrk,plotDrawStyle,aveSuccessRatePlot,idxSeqSet,rankNum,rankingType,rankIdx,nameTrkAll,thresholdSet,titleName, xLabelName,yLabelName,figName,configPlot);
-        fid = fopen([evalResPath '/' titleName '.txt'],'w');
+        fid = fopen([attrResPath '/' titleName '.txt'],'w');
         for idx = 1:numTrk
             fprintf(fid,'%s\t%s\n',eval_res{idx}{1},eval_res{idx}{2});
+            result.(metricType).(eval_res{idx}{1}).(attFigName{attIdx}) = str2double(eval_res{idx}{2});
         end
         fclose(fid);
     end
 end
+save("./evalRes/result.mat",'result');

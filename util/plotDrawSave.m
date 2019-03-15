@@ -65,5 +65,5 @@ ylabel(yLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New 
 hold off
 
 saveas(gcf,figName,'png');
-
+close(figure1);
 end

@@ -13,6 +13,8 @@ trackers = {
             struct('name','adnet','namePaper','ADNet')
             struct('name','sdnet','namePaper','meta-SDNet')
             }; % the set of trackers
+trackNum = length(trackers);
+halfTrackNum = floor(trackNum/2);
 
 evalType = 'OPE'; % the evaluation types such as OPE, SRE and TRE
 resultPath = ['./trackRes/results_' evalType '/']; % the folder containing the tracking results
@@ -21,6 +23,8 @@ drawResPath = './evalRes/figs/box/';% the folder that will stores the images wit
 
 %% plot config
 showLegend = true; % show legend or not
+legendOut = true;
+legBoxOff = true;
 LineWidth = 4;
 idFontSize = 24;
 legendFontSize = 20;
@@ -38,7 +42,7 @@ for index_seq = 1:length(seqs)
     seq_length = seq.endFrame-seq.startFrame+1;
     lenTotalSeq = lenTotalSeq + seq_length;
     %% draw visual results of each tracker
-    for index_algrm = 1:length(trackers)
+    for index_algrm = 1:trackNum
         algrm = trackers{index_algrm};
         name = algrm.name;
         trackerNames{index_algrm} = [ name repmat(char(3),1,legendPadding) 0];
@@ -81,20 +85,37 @@ for index_seq = 1:length(seqs)
         imshow(img,'border','tight');
 
         text(5, 20, ['#' id], 'Color','y', 'FontWeight','bold', 'FontSize',idFontSize,'FontName','Times New Roman');
-        
-        for j = 1:length(trackers)           
+        hlines = [];
+        for j = 1:trackNum           
             LineStyle = plotDrawStyle{j}.lineStyle;
             
             rectangle('Position', resultsAll{j}.res(i,:), 'EdgeColor', plotDrawStyle{j}.color, 'LineWidth', LineWidth,'LineStyle',LineStyle);
             hline = line(NaN,NaN,'LineWidth',LineWidth,'LineStyle',LineStyle,'Color',plotDrawStyle{j}.color);
+            hlines(j) = hline;
         end
         if showLegend
-            
-            [~,OBJH,~,~] = legend(trackerNames(:),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location','south','Orientation','Horizontal');
-            for j=1:length(trackers)
-                set(OBJH(j),'String',trackers{j}.name);
+            ah1 = gca;
+            pos = 'south';
+            if legendOut
+                pos = 'southoutside';
             end
-            %legend('boxoff');
+            [legend1,OBJH1,~,~] = legend(ah1,hlines(1:halfTrackNum),trackerNames(1:halfTrackNum),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location',pos,'Orientation','Horizontal');
+            ah2=axes('position',get(gca,'position'), 'visible','off');
+            [legend2,OBJH2,~,~] = legend(ah2,hlines(halfTrackNum+1:trackNum),trackerNames(halfTrackNum+1:trackNum),'Interpreter', 'none','FontWeight','bold','fontsize',legendFontSize,'FontName','Times New Roman','Location',pos,'Orientation','Horizontal');
+            
+            legend1_pos = get(legend1,'Position');
+            set(legend2,'Position',legend1_pos+[0,legend1_pos(4)*1,0,0]);
+            
+            for j=1:halfTrackNum
+                set(OBJH1(j),'String',trackers{j}.name);
+            end
+            for j=halfTrackNum+1:trackNum
+                set(OBJH2(j-halfTrackNum),'String',trackers{j}.name);
+            end
+            if legBoxOff
+                set(legend1,'Box','off')
+                set(legend2,'Box','off')
+            end
         end
         pause(0.3);
         imwrite(frame2im(getframe(gcf)), [pathSave  filename]);

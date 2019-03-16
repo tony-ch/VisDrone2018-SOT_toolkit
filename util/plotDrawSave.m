@@ -64,6 +64,12 @@ xlabel(xLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New 
 ylabel(yLabelName,'fontsize',fontSize,'FontWeight','bold','FontName','Times New Roman');
 hold off
 
-saveas(gcf,figName,'png');
+saveas(gcf,figName,'svg');
+
+set(figure1,'Units','Inches');
+pos = get(figure1,'Position');
+set(figure1,'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize',[pos(3), pos(4)])
+print(figure1,figName,'-dpdf','-r0')
+
 close(figure1);
 end

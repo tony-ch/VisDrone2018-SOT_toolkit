@@ -1,12 +1,12 @@
 clear; close all; clc;
-load('./evalRes/attr.mat');
-attr_result = result;
-%attr_names = {'Overall','Occlusion','Camera~motion','Size~change',...
+% load('./evalRes/attr.mat');
+% attr_result = result;
+% attr_names = {'Overall','Occlusion','Camera~motion','Size~change',...
 %    'Illumination~change','Motion~change', 'Unassigned'};
 
-% load('./evalRes/result.mat');
-% metricType = {'overlap','error'};
-% attr_result = result.(metricType{2});
+load('./evalRes/result.mat');
+metricType = {'overlap','error'};
+attr_result = result.(metricType{2});
 num_tracker_show = 4; % only write top4
 attr_names = {'Overall','Aspect Ratio~Change','Background~Clutter','Camera~Motion','Fast~Motion','Full~Occlusion','Illumination~Variation','Low Resolution',...
            'Out~of~View','Partial~Occlusion','Similar~Object','Scale~Variation','Viewpoint~Change'};
